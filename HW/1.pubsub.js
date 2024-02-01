@@ -2,14 +2,12 @@ class Pubsub {
     constructor() {
         this.subs = {};
     }
-
     _sub(topic, cb) {
         if (!this.subs[topic]) {
             this.subs[topic] = [];
         }
         this.subs[topic].push(cb);
     }
-
     _pub(topic) {
         if(this.subs[topic]){
             this.subs[topic].forEach((cb) => {
@@ -17,7 +15,6 @@ class Pubsub {
             });
         }
     }
-
     _del(topic, cb){
         if(!cb){
             delete this.subs[topic];
@@ -27,7 +24,6 @@ class Pubsub {
             });
         }
     }
-
 }
 
 
