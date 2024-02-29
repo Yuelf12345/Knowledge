@@ -12,7 +12,7 @@ const s = (str) => {
         let len = Math.max(len1, len2)
         if (len > end - start) {
             start = i - Math.floor((len - 1) / 2)
-            end = i + Math.ceil(len / 2)
+            end = i + Math.floor(len / 2)
         }
     }
     return str.substring(start, end + 1)
