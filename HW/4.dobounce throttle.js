@@ -19,3 +19,15 @@ function throttle(fn, delay) {
         }
     }
 }
+
+function Animal(name) {
+    this.name = name;
+}
+Animal.prototype.speak = function () {
+    console.log(this.name + " makes a sound.");
+}
+
+console.log(Animal.prototype.constructor == Animal);
+
+let cat = new Animal("Kitty");
+cat.speak(); // 输出 "Kitty makes a sound."
