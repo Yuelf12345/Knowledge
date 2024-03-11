@@ -65,8 +65,9 @@ class MyPromise {
         // console.log(`处理了${this._handlers.length}次handlers函数`);
         // console.log(this._handlers);
         while (this._handlers[0]) {
-            const handler = this._handlers.shift();
+            const handler = this._handlers[0];
             this._runOneHandler(handler)
+            this._handlers.shift();
         }
     }
     _runOneHandler() {
@@ -101,15 +102,19 @@ const runMicroTask = (callback) => {
         setTimeout(callback, 0);
     }
 }
-
+console.log(0);
+setTimeout(() => {
+    console.log(2);
+ })
 const p = new MyPromise((resolve, reject) => {
     setTimeout(() => {
         resolve(1)
+        console.log(3);
     })
+    console.log(1);
     // reject(1222)
     // throw new Error('123');
 });
-
 
 p.then(function A1() { })
 
