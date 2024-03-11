@@ -11,7 +11,7 @@ class MyPromise {
     constructor(executor) {
         this._state = PENDING;
         this._value = undefined;
-        this._handers = [];     // 保存then回调函数队列
+        this._handlers = [];     // 保存then回调函数队列
         try {
             executor(this._resolve.bind(this), this._reject.bind(this));
         } catch (error) {
@@ -30,7 +30,7 @@ class MyPromise {
         }
         this._state = newState;
         this._value = value;
-        this._runHanders()
+        this._runHandlers()
     }
 
     _resolve(data) {
@@ -49,8 +49,8 @@ class MyPromise {
      * @param {Function} resolve 让then返回的promise成功
      * @param {Function} reject 让then返回的promise失败
      */
-    _pushHander(executor, state, resolve, reject) {
-        this._handers.push({
+    _pushHandler(executor, state, resolve, reject) {
+        this._handlers.push({
             executor,
             state,
             resolve,
@@ -58,26 +58,26 @@ class MyPromise {
         });
     }
 
-    _runHanders() {
+    _runHandlers() {
         if (this._state === PENDING) {
             return
         }
-        // console.log(`处理了${this._handers.length}次handers函数`);
-        // console.log(this._handers);
-        while (this._handers[0]) {
-            const hander = this._handers.shift();
-            this._runOneHander(hander)
+        // console.log(`处理了${this._handlers.length}次handlers函数`);
+        // console.log(this._handlers);
+        while (this._handlers[0]) {
+            const handler = this._handlers.shift();
+            this._runOneHandler(handler)
         }
     }
-    _runOneHander() {
+    _runOneHandler() {
 
     }
 
     then(onFulfilled, onRejected) {
         return new MyPromise((resolve, reject) => {
-            this._pushHander(onFulfilled, FULFILLED, resolve, reject)
-            this._pushHander(onRejected, REJECTED, resolve, reject)
-            this._runHanders()
+            this._pushHandler(onFulfilled, FULFILLED, resolve, reject)
+            this._pushHandler(onRejected, REJECTED, resolve, reject)
+            this._runHandlers()
         });
     }
 }
